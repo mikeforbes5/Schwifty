@@ -6,6 +6,7 @@ import type { Config } from "./config";
 import { toPublicProduct } from "./serialize";
 import { llmsTxt } from "./llms";
 import { buildRequirements, type PaymentGateway } from "./payment";
+import { registerAdminRoutes } from "./admin";
 
 export type { PaymentGateway } from "./payment";
 
@@ -89,6 +90,8 @@ export function buildApp({ core, gateway, config }: AppDeps): Hono {
     if (!invoice) return c.json(errBody("NOT_FOUND", "Invoice not found"), 404);
     return c.json({ invoice });
   });
+
+  registerAdminRoutes(app, { core, gateway, config });
 
   app.notFound((c) => c.json(errBody("NOT_FOUND", "No such route"), 404));
   app.onError((err, c) => c.json(errBody("INTERNAL", err.message), 500));
