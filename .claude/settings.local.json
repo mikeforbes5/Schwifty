@@ -24,7 +24,11 @@
       "Bash(npm ls *)",
       "Bash(npm test *)",
       "Bash(git commit -q -m 'feat: e2e smoke test and README *)",
-      "Bash(DATABASE_PATH=./data/schwifty.db npm run seed)"
+      "Bash(DATABASE_PATH=./data/schwifty.db npm run seed)",
+      "Bash(npm run *)",
+      "Bash(curl -s http://localhost:4021/admin/stats -H \"Authorization: Bearer dev-admin-token-0123456789\")",
+      "Bash(pkill -f \"tsx watch src/index.ts\")",
+      "Bash(git commit -q -m 'fix: anchor default database path to INIT_CWD so seed and server share one db *)"
     ]
   }
 }
