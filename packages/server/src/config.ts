@@ -23,11 +23,22 @@ export interface Config {
   usdcAddress: string;
 }
 
+// Node does not read .env files by itself; entry points call this before
+// loadConfig. Values already present in the environment take precedence.
+export function loadDotEnv(dir = process.env.INIT_CWD ?? process.cwd()): void {
+  try {
+    process.loadEnvFile(resolve(dir, ".env"));
+  } catch {
+    // no .env file — rely on the shell environment
+  }
+}
+
 export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
   const e = EnvSchema.parse(env);
   // npm workspace scripts run with the package dir as cwd; INIT_CWD is where
-  // the user invoked npm, so seed and server default to the same db file.
-  const databasePath = e.DATABASE_PATH ?? resolve(e.INIT_CWD ?? process.cwd(), "data/schwifty.db");
+  // the user invoked npm, so relative db paths (and the default) resolve there
+  // and seed + server always share one db file. Absolute paths pass through.
+  const databasePath = resolve(e.INIT_CWD ?? process.cwd(), e.DATABASE_PATH ?? "data/schwifty.db");
   return {
     network: e.NETWORK, payTo: e.PAY_TO_ADDRESS, facilitatorUrl: e.FACILITATOR_URL,
     databasePath, adminToken: e.ADMIN_TOKEN, port: e.PORT,

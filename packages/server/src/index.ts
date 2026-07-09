@@ -1,9 +1,10 @@
 import { serve } from "@hono/node-server";
 import { createCore } from "@schwifty/core";
-import { loadConfig } from "./config";
+import { loadConfig, loadDotEnv } from "./config";
 import { FacilitatorGateway } from "./payment";
 import { buildApp } from "./app";
 
+loadDotEnv();
 const config = loadConfig();
 const core = createCore(config.databasePath);
 const app = buildApp({ core, gateway: new FacilitatorGateway(config.facilitatorUrl), config });

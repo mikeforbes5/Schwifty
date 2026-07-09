@@ -28,7 +28,20 @@
       "Bash(npm run *)",
       "Bash(curl -s http://localhost:4021/admin/stats -H \"Authorization: Bearer dev-admin-token-0123456789\")",
       "Bash(pkill -f \"tsx watch src/index.ts\")",
-      "Bash(git commit -q -m 'fix: anchor default database path to INIT_CWD so seed and server share one db *)"
+      "Bash(git commit -q -m 'fix: anchor default database path to INIT_CWD so seed and server share one db *)",
+      "Bash(git remote *)",
+      "Bash(gh auth *)",
+      "Bash(git ls-remote *)",
+      "Bash(git fetch *)",
+      "Bash(git ls-tree *)",
+      "Bash(git merge origin/main --allow-unrelated-histories -X ours -m 'Merge GitHub-initialized main into feature branch *)",
+      "Bash(git push *)",
+      "Bash(gh pr create --base main --head feat/marketplace-v1 --title 'Schwifty v1: agent marketplace with x402 USDC payments, MCP client, and ops dashboard' --body ' *)",
+      "Bash(node -e ' *)",
+      "Bash(npx tsc *)",
+      "Bash(node -pe \"const b=JSON.parse\\(require\\('fs'\\).readFileSync\\(0\\)\\); '402 quote → pay ' + \\(Number\\(b.accepts[0].maxAmountRequired\\)/1e6\\) + ' USDC on ' + b.accepts[0].network + ' to ' + b.accepts[0].payTo.slice\\(0,6\\) + '…'\")",
+      "Bash(node -pe \"const b=JSON.parse\\(require\\('fs'\\).readFileSync\\(0\\)\\); '402 quote → pay ' + \\(Number\\(b.accepts[0].maxAmountRequired\\)/1e6\\) + ' USDC on ' + b.accepts[0].network + ' to ' + b.accepts[0].payTo.slice\\(0,6\\) + '…' + b.accepts[0].payTo.slice\\(-4\\)\")",
+      "Bash(git commit -q -m 'fix: load .env from entry points and resolve relative db paths against INIT_CWD *)"
     ]
   }
 }
