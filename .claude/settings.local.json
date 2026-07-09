@@ -21,7 +21,10 @@
       "Bash(node -e \"console.log\\('local react ver:', \\(\\(\\)=>{try{return require\\('/Users/mforbes/Projects/Schwifty/packages/dashboard/node_modules/react/package.json'\\).version}catch{return 'none'}}\\)\\(\\), '| root react ver:', \\(\\(\\)=>{try{return require\\('/Users/mforbes/Projects/Schwifty/node_modules/react/package.json'\\).version}catch{return 'none'}}\\)\\(\\)\\)\")",
       "Bash(npm dedupe *)",
       "Bash(node -e \"console.log\\('root react:', \\(\\(\\)=>{try{return require\\('/Users/mforbes/Projects/Schwifty/node_modules/react/package.json'\\).version}catch{return 'none'}}\\)\\(\\), '| dashboard-local react:', \\(\\(\\)=>{try{return require\\('/Users/mforbes/Projects/Schwifty/packages/dashboard/node_modules/react/package.json'\\).version}catch{return 'none'}}\\)\\(\\)\\)\")",
-      "Bash(npm ls *)"
+      "Bash(npm ls *)",
+      "Bash(npm test *)",
+      "Bash(git commit -q -m 'feat: e2e smoke test and README *)",
+      "Bash(DATABASE_PATH=./data/schwifty.db npm run seed)"
     ]
   }
 }
