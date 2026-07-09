@@ -7,6 +7,7 @@ import { toPublicProduct } from "./serialize";
 import { llmsTxt } from "./llms";
 import { buildRequirements, type PaymentGateway } from "./payment";
 import { registerAdminRoutes } from "./admin";
+import { buildOpenApi } from "./openapi";
 
 export type { PaymentGateway } from "./payment";
 
@@ -32,6 +33,8 @@ export function buildApp({ core, gateway, config }: AppDeps): Hono {
     }));
 
   app.get("/llms.txt", (c) => c.text(llmsTxt(config)));
+
+  app.get("/openapi.json", (c) => c.json(buildOpenApi(config)));
 
   const listQuery = z.object({
     kind: ProductKind.optional(),
