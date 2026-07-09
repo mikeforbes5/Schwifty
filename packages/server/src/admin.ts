@@ -1,6 +1,11 @@
 import type { Hono } from "hono";
-import { NotFoundError } from "@schwifty/core";
+import { zValidator } from "@hono/zod-validator";
+import { z } from "zod";
+import { ulid } from "ulid";
+import { NotFoundError, ProductKind } from "@schwifty/core";
+import { forgeItem } from "@schwifty/forge";
 import { errBody, type AppDeps } from "./app";
+import { toPublicProduct } from "./serialize";
 
 export function registerAdminRoutes(app: Hono, { core, config }: AppDeps): void {
   app.use("/admin/*", async (c, next) => {
@@ -20,6 +25,16 @@ export function registerAdminRoutes(app: Hono, { core, config }: AppDeps): void 
 
   app.get("/admin/orders", (c) => c.json({ orders: core.purchases.listOrders() }));
   app.get("/admin/invoices", (c) => c.json({ invoices: core.purchases.listInvoices() }));
+
+  const forgeBody = z.object({ kind: ProductKind, count: z.number().int().min(1).max(50) });
+  app.post("/admin/forge", zValidator("json", forgeBody), (c) => {
+    const { kind, count } = c.req.valid("json");
+    const created = Array.from({ length: count }, () => {
+      const seed = ulid();
+      return core.catalog.create({ sku: `${kind.toUpperCase()}-${seed}`, ...forgeItem(kind, seed) });
+    });
+    return c.json({ created: created.map(toPublicProduct) }, 201);
+  });
 
   app.post("/admin/products/:id/delist", (c) => {
     try {

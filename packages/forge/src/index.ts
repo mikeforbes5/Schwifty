@@ -56,6 +56,7 @@ export function forgeItem(kind: ProductKind, seed: string): ForgedItem {
   return { kind, title, description, priceUnits: PRICE[kind], edition, preview, payload, contentHash: sha256hex(payload) };
 }
 
+export { seedCatalog } from "./seed";
 export * from "./random";
 export * from "./hash";
 export { generateSigil } from "./sigil";

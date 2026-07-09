@@ -30,6 +30,19 @@ describe("admin routes", () => {
     const invoices = await (await app.request("/admin/invoices", { headers: auth })).json();
     expect(invoices.invoices[0].number).toMatch(/^SCHW-/);
   });
+  it("mints new products via the forge", async () => {
+    const { app, core } = makeTestApp();
+    const res = await app.request("/admin/forge", {
+      method: "POST",
+      headers: { ...auth, "Content-Type": "application/json" },
+      body: JSON.stringify({ kind: "sigil", count: 3 }),
+    });
+    expect(res.status).toBe(201);
+    const body = await res.json();
+    expect(body.created).toHaveLength(3);
+    expect(body.created[0].payload).toBeUndefined();
+    expect(core.catalog.list({ kind: "sigil" })).toHaveLength(3);
+  });
   it("delists a product", async () => {
     const { app, core } = makeTestApp();
     const p = seedProduct(core);
