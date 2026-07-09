@@ -3,6 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchStats } from "./api";
 import { formatUsdc } from "./format";
 import { StatCard } from "./components/StatCard";
+import { OrdersTable } from "./components/OrdersTable";
+import { InvoicesTable } from "./components/InvoicesTable";
 
 const TOKEN_KEY = "schwifty_admin_token";
 
@@ -58,7 +60,7 @@ export default function App() {
       </nav>
       {!token ? <p>Enter the admin token to connect.</p> :
         tab === "overview" ? <Overview token={token} /> :
-        tab === "orders" ? <p>Orders — coming in Task 14</p> : <p>Invoices — coming in Task 14</p>}
+        tab === "orders" ? <OrdersTable token={token} /> : <InvoicesTable token={token} />}
     </div>
   );
 }

@@ -3,5 +3,10 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
-  test: { environment: "jsdom", setupFiles: ["src/test-setup.ts"] },
+  resolve: { dedupe: ["react", "react-dom"] },
+  test: {
+    environment: "jsdom",
+    setupFiles: ["src/test-setup.ts"],
+    server: { deps: { inline: [/@tanstack\/react-query/, /react/] } },
+  },
 });
