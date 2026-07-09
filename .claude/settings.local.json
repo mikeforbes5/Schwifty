@@ -13,7 +13,9 @@
       "Bash(git commit -q -m 'feat: revenue/inventory stats service *)",
       "Bash(node -e \"console.log\\(Object.keys\\(require\\('/Users/mforbes/Projects/Schwifty/packages/server/package.json'\\).dependencies||{}\\)\\)\")",
       "Bash(git commit -q -m 'feat: x402 payment gate, purchase route, facilitator gateway *)",
-      "Bash(node -e \"console.log\\(Object.keys\\(require\\('/Users/mforbes/Projects/Schwifty/packages/forge/package.json'\\).dependencies||{}\\)\\)\")"
+      "Bash(node -e \"console.log\\(Object.keys\\(require\\('/Users/mforbes/Projects/Schwifty/packages/forge/package.json'\\).dependencies||{}\\)\\)\")",
+      "Bash(node -e \"console.log\\(Object.keys\\(require\\('/Users/mforbes/Projects/Schwifty/packages/mcp/package.json'\\).dependencies||{}\\)\\)\")",
+      "Bash(npx tsx *)"
     ]
   }
 }
