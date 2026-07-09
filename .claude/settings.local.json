@@ -15,7 +15,9 @@
       "Bash(git commit -q -m 'feat: x402 payment gate, purchase route, facilitator gateway *)",
       "Bash(node -e \"console.log\\(Object.keys\\(require\\('/Users/mforbes/Projects/Schwifty/packages/forge/package.json'\\).dependencies||{}\\)\\)\")",
       "Bash(node -e \"console.log\\(Object.keys\\(require\\('/Users/mforbes/Projects/Schwifty/packages/mcp/package.json'\\).dependencies||{}\\)\\)\")",
-      "Bash(npx tsx *)"
+      "Bash(npx tsx *)",
+      "Bash(node -e \"const p=require\\('/Users/mforbes/Projects/Schwifty/packages/dashboard/package.json'\\); console.log\\('deps:', Object.keys\\(p.dependencies||{}\\).join\\(','\\), '| dev ok:', !!p.devDependencies.vite\\)\")",
+      "Bash(node -e \"const p=require\\('/Users/mforbes/Projects/Schwifty/packages/dashboard/package.json'\\); console.log\\('dev deps:', Object.keys\\(p.devDependencies||{}\\).join\\(','\\)\\)\")"
     ]
   }
 }
