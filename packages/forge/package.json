@@ -1,0 +1,20 @@
+{
+  "name": "@schwifty/forge",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "vitest run",
+    "seed": "tsx src/seed-cli.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.1",
+    "tsx": "^4.23.0",
+    "typescript": "^7.0.2",
+    "vitest": "^4.1.10"
+  },
+  "dependencies": {
+    "@schwifty/core": "^0.1.0",
+    "zod": "^3.25.76"
+  }
+}
