@@ -31,6 +31,20 @@ x402 + USDC on Base Sepolia (testnet) by default. Flip `NETWORK=base` in
 facilitator settles. The server never holds a private key; it only receives
 at `PAY_TO_ADDRESS`.
 
+## Deploy (Railway)
+
+The repo ships a `Dockerfile` + `railway.json`. On [railway.com](https://railway.com):
+new project → Deploy from GitHub repo → this repo. Then:
+
+1. **Volume**: add a Volume to the service, mount path `/data` (SQLite lives there).
+2. **Variables**: set `PAY_TO_ADDRESS` and `ADMIN_TOKEN`. `BASE_URL` is derived
+   automatically from the Railway domain; `NETWORK` defaults to `base-sepolia`.
+3. **Domain**: Settings → Networking → Generate Domain.
+
+The container seeds the catalog on boot (idempotent). Point the local ops
+dashboard at production with
+`ADMIN_API_URL=https://<your-domain> npm run dev:dashboard`.
+
 ## Packages
 
 | Package | Purpose |

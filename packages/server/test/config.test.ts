@@ -31,6 +31,12 @@ describe("loadConfig", () => {
   it("rejects bad pay-to address", () => {
     expect(() => loadConfig({ ...base, PAY_TO_ADDRESS: "nope" } as never)).toThrow();
   });
+  it("derives baseUrl from RAILWAY_PUBLIC_DOMAIN when BASE_URL is unset", () => {
+    const c = loadConfig({ ...base, RAILWAY_PUBLIC_DOMAIN: "schwifty.up.railway.app" } as never);
+    expect(c.baseUrl).toBe("https://schwifty.up.railway.app");
+    const explicit = loadConfig({ ...base, RAILWAY_PUBLIC_DOMAIN: "x.railway.app", BASE_URL: "https://market.example" } as never);
+    expect(explicit.baseUrl).toBe("https://market.example");
+  });
 });
 
 describe("loadDotEnv", () => {

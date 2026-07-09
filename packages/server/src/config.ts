@@ -9,7 +9,8 @@ const EnvSchema = z.object({
   INIT_CWD: z.string().optional(),
   ADMIN_TOKEN: z.string().min(16),
   PORT: z.coerce.number().int().default(4021),
-  BASE_URL: z.string().url().default("http://localhost:4021"),
+  BASE_URL: z.string().url().optional(),
+  RAILWAY_PUBLIC_DOMAIN: z.string().optional(),
 });
 
 export const USDC_ADDRESS: Record<"base-sepolia" | "base", string> = {
@@ -39,9 +40,12 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
   // the user invoked npm, so relative db paths (and the default) resolve there
   // and seed + server always share one db file. Absolute paths pass through.
   const databasePath = resolve(e.INIT_CWD ?? process.cwd(), e.DATABASE_PATH ?? "data/schwifty.db");
+  // Hosts like Railway inject their public domain; BASE_URL wins when set.
+  const baseUrl = e.BASE_URL
+    ?? (e.RAILWAY_PUBLIC_DOMAIN ? `https://${e.RAILWAY_PUBLIC_DOMAIN}` : `http://localhost:${e.PORT}`);
   return {
     network: e.NETWORK, payTo: e.PAY_TO_ADDRESS, facilitatorUrl: e.FACILITATOR_URL,
     databasePath, adminToken: e.ADMIN_TOKEN, port: e.PORT,
-    baseUrl: e.BASE_URL, usdcAddress: USDC_ADDRESS[e.NETWORK],
+    baseUrl, usdcAddress: USDC_ADDRESS[e.NETWORK],
   };
 }
