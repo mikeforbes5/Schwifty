@@ -1,0 +1,13 @@
+{
+  "name": "schwifty",
+  "private": true,
+  "type": "module",
+  "workspaces": ["packages/*"],
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "test": "npm run test --workspaces --if-present",
+    "dev:server": "npm run dev -w @schwifty/server",
+    "dev:dashboard": "npm run dev -w dashboard",
+    "seed": "npm run seed -w @schwifty/forge"
+  }
+}
