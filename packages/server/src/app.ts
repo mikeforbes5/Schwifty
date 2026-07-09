@@ -1,15 +1,13 @@
 import { Hono, type Context } from "hono";
 import { zValidator } from "@hono/zod-validator";
 import { z } from "zod";
-import { ProductKind, type Core } from "@schwifty/core";
+import { NotFoundError, ProductKind, SoldOutError, type Core } from "@schwifty/core";
 import type { Config } from "./config";
 import { toPublicProduct } from "./serialize";
 import { llmsTxt } from "./llms";
+import { buildRequirements, type PaymentGateway } from "./payment";
 
-// Placeholder — Task 7 replaces this with the real interface in payment.ts
-export interface PaymentGateway {
-  settle(header: string, requirements: unknown): Promise<unknown>;
-}
+export type { PaymentGateway } from "./payment";
 
 export interface AppDeps { core: Core; gateway: PaymentGateway; config: Config }
 
@@ -49,6 +47,47 @@ export function buildApp({ core, gateway, config }: AppDeps): Hono {
     if (!p || p.status === "delisted")
       return c.json(errBody("NOT_FOUND", "Product not found"), 404);
     return c.json({ product: toPublicProduct(p) });
+  });
+
+  const orderBody = z.object({ productId: z.string().min(1) });
+  app.post("/orders", zValidator("json", orderBody, validationHook), async (c) => {
+    const { productId } = c.req.valid("json");
+    const product = core.catalog.get(productId);
+    if (!product) return c.json(errBody("NOT_FOUND", "Product not found"), 404);
+    if (product.status !== "listed")
+      return c.json(errBody("SOLD_OUT", "Product is no longer available"), 409);
+
+    const requirements = buildRequirements(product, config);
+    const header = c.req.header("X-PAYMENT");
+    if (!header)
+      return c.json({ x402Version: 1, error: "X-PAYMENT header is required", accepts: [requirements] }, 402);
+
+    const settled = await gateway.settle(header, requirements);
+    if (!settled.success)
+      return c.json(errBody("PAYMENT_FAILED", `Payment failed: ${settled.reason}`), 402);
+
+    try {
+      const result = core.purchases.recordPaidPurchase({
+        productId, buyerAddress: settled.payer, paymentId: settled.paymentId, network: config.network,
+      });
+      return c.json(result, 201);
+    } catch (e) {
+      if (e instanceof SoldOutError) return c.json(errBody("SOLD_OUT", e.message), 409);
+      if (e instanceof NotFoundError) return c.json(errBody("NOT_FOUND", e.message), 404);
+      throw e;
+    }
+  });
+
+  app.get("/orders/:id", (c) => {
+    const order = core.purchases.getOrder(c.req.param("id"));
+    if (!order) return c.json(errBody("NOT_FOUND", "Order not found"), 404);
+    return c.json({ order });
+  });
+
+  app.get("/invoices/:number", (c) => {
+    const invoice = core.purchases.getInvoice(c.req.param("number"));
+    if (!invoice) return c.json(errBody("NOT_FOUND", "Invoice not found"), 404);
+    return c.json({ invoice });
   });
 
   app.notFound((c) => c.json(errBody("NOT_FOUND", "No such route"), 404));
