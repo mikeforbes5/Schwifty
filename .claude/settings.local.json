@@ -9,7 +9,8 @@
       "Bash(npm --version)",
       "Bash(npm i *)",
       "Bash(npx vitest *)",
-      "Bash(git commit -q -m 'feat: atomic purchase transaction with ledger and invoices *)"
+      "Bash(git commit -q -m 'feat: atomic purchase transaction with ledger and invoices *)",
+      "Bash(git commit -q -m 'feat: revenue/inventory stats service *)"
     ]
   }
 }
