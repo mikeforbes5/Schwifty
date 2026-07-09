@@ -21,7 +21,7 @@ describe("POST /orders (x402 gate)", () => {
     expect(body.accepts[0]).toMatchObject({
       scheme: "exact", network: "base-sepolia", maxAmountRequired: "5000000",
       payTo: "0x" + "ab".repeat(20),
-      asset: "0x036CbD53842c5426634e7929541eC2318f3dCF7c",
+      asset: "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
     });
     expect(body.accepts[0].resource).toBe(`http://market.test/products/${p.id}`);
   });

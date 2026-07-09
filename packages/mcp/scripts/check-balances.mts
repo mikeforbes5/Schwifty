@@ -12,7 +12,7 @@ const onMainnet = process.env.NETWORK === "base";
 const chain = onMainnet ? base : baseSepolia;
 const USDC = onMainnet
   ? "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"
-  : "0x036CbD53842c5426634e7929541eC2318f3dCF7c";
+  : "0x036CbD53842c5426634e7929541eC2318f3dCF7e";
 
 const key = process.env.TEST_BUYER_PRIVATE_KEY ?? "";
 if (!/^0x[0-9a-fA-F]{64}$/.test(key)) {

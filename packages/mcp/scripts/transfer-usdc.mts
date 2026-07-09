@@ -23,7 +23,7 @@ if (onMainnet) {
   console.log("Refusing to run: NETWORK=base (mainnet). This tool is for testnet only.");
   process.exit(1);
 }
-const USDC = "0x036CbD53842c5426634e7929541eC2318f3dCF7c" as const;
+const USDC = "0x036CbD53842c5426634e7929541eC2318f3dCF7e" as const;
 
 const key = process.env.TEST_BUYER_PRIVATE_KEY ?? "";
 if (!/^0x[0-9a-fA-F]{64}$/.test(key)) {

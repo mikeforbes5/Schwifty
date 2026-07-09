@@ -7,7 +7,7 @@ export const testConfig: Config = {
   facilitatorUrl: "http://facilitator.test", databasePath: ":memory:",
   adminToken: "test-admin-token-1234", port: 0,
   baseUrl: "http://market.test",
-  usdcAddress: "0x036CbD53842c5426634e7929541eC2318f3dCF7c",
+  usdcAddress: "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
 };
 
 export class MockGateway implements PaymentGateway {
